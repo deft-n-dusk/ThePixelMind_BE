@@ -18,8 +18,35 @@ const validateSignUpData = (req) => {
     }
 }
 
+const validateProductAddData = (req) => {
+  const { title, price, description, category, imageURL } = req.body;
 
+  if (!title || title.trim().length === 0) {
+    throw new Error("Product title is required");
+  } else if (title.length < 3 || title.length > 100) {
+    throw new Error("Title must be 3-100 characters long");
+  }
+
+  if (!price || isNaN(price) || Number(price) < 1) {
+    throw new Error("Price must be a number greater than 0");
+  }
+
+  if (!description || description.trim().length === 0) {
+    throw new Error("Product description is required");
+  } else if (description.length < 10) {
+    throw new Error("Description should be at least 10 characters long");
+  }
+
+  if (!category || category.trim().length === 0) {
+    throw new Error("Product category is required");
+  }
+
+  if (imageURL && !validator.isURL(imageURL, { protocols: ["http", "https"], require_protocol: true })) {
+    throw new Error("Image URL is not valid");
+  }
+};
 
 module.exports = {
-    validateSignUpData
-}
+  validateSignUpData,
+  validateProductAddData,
+};

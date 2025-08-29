@@ -1,0 +1,127 @@
+const express = require("express");
+const productRouter = express.Router();
+const Product = require("../models/product");
+const { userAuth } = require("../middlewares/auth");
+const { validateProductAddData } = require("../utils/validation");
+
+productRouter.post("/product/add", userAuth, async (req, res) => {
+  try {
+    // Validate incoming data
+    validateProductAddData(req);
+
+    const { title, price, description, category, imageURL } = req.body;
+
+    // Create and save product
+    const product = new Product({ 
+      title, 
+      price, 
+      description, 
+      category, 
+      imageURL 
+    });
+
+    await product.save();
+
+    res.status(201).json({
+      success: true,
+      message: "Product created successfully",
+      product,
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: error.message,
+    });
+  }
+});
+
+// GET All Products
+productRouter.get("/products", userAuth, async (req, res) => {
+  try {
+    const products = await Product.find();
+    res.status(200).json({
+      success: true,
+      products,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+});
+
+// GET Single Product by ID
+productRouter.get("/product/:id", userAuth, async (req, res) => {
+  try {
+    const product = await Product.findById(req.params.id);
+
+    if (!product) {
+      return res.status(404).json({
+        success: false,
+        message: "Product not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      product,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+});
+
+// UPDATE Product by ID
+productRouter.patch("/product/:id", userAuth, async (req, res) => {
+  try {
+    const updates = Object.keys(req.body);
+    const allowedUpdates = ["title", "price", "description", "category", "imageURL"];
+    const isValidOperation = updates.every((update) => allowedUpdates.includes(update));
+
+    if (!isValidOperation) {
+      return res.status(400).json({ success: false, message: "Invalid updates!" });
+    }
+
+    const product = await Product.findById(req.params.id);
+    if (!product) {
+      return res.status(404).json({ success: false, message: "Product not found" });
+    }
+
+    updates.forEach((update) => (product[update] = req.body[update]));
+    await product.save();
+
+    res.status(200).json({ success: true, message: "Product updated", product });
+  } catch (error) {
+    res.status(400).json({ success: false, message: error.message });
+  }
+});
+
+// DELETE Product by ID
+productRouter.delete("/product/:id", userAuth, async (req, res) => {
+  try {
+    const product = await Product.findByIdAndDelete(req.params.id);
+
+    if (!product) {
+      return res.status(404).json({
+        success: false,
+        message: "Product not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Product deleted successfully",
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+});
+
+module.exports = productRouter;
