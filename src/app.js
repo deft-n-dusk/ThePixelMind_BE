@@ -2,8 +2,39 @@ require('dotenv').config();
 const express = require("express");
 const app = express();
 const dbConnect = require("./config/database")
+const cookieParser = require("cookie-parser");
+const jwt = require("jsonwebtoken");
+const cors = require("cors");
 
-const PORT = process.env.PORT || 2707;
+
+app.use(cors({
+  origin: "http://localhost:5173", // frontend URL
+  credentials: true,
+}));
+
+
+const PORT = process.env.PORT || 2713;
+
+app.use(cookieParser());
+app.use(express.json());
+
+
+const authRouter = require("./routes/authRouter");
+app.use("/", authRouter);
+
+const authCheckRouter = require("./routes/authCheckRouter");
+app.use("/", authCheckRouter);
+
+const cartRouter = require("./routes/cartRouter");
+app.use("/", cartRouter);
+
+const categoryRouter = require("./routes/categoryRouter");
+app.use("/", categoryRouter);
+
+const productRouter = require("./routes/productRouter");
+app.use("/", productRouter);
+
+
 
 dbConnect()
 .then(() => {

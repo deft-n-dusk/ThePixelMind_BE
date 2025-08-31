@@ -16,10 +16,11 @@ const productSchema = mongoose.Schema({
         type: String,
         required: true,
     },
-    category:{
-        type: String,
-        required: true,
-    },
+    category: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Category", // reference Category model
+    required: true,
+  },
     imageURL:{
         type: String,
         default: "https://baskiofisi.com.tr/wp-content/uploads/default-image-1.jpg",

@@ -16,11 +16,11 @@ categoryRouter.post("/category/add", userAuth, async(req, res) => {
 
     const existing = await Category.findOne({name});
     if(existing){
-        res.status(400).send(`${existing} category already exists`);
+        return res.status(400).send("This category already exists");
     }
 
     const category = new Category({name, description});
-    await category.save;
+    await category.save();
 
     res.status(201).json({success: true, message:"Category added successfully", category});
     }
@@ -97,3 +97,6 @@ categoryRouter.delete("/category/delete/:id", userAuth, async(req, res) => {
         res.status(400).json({success: false, message: err.message});
     }
 })
+
+
+module.exports = categoryRouter;

@@ -6,18 +6,19 @@ const { validateProductAddData } = require("../utils/validation");
 
 productRouter.post("/product/add", userAuth, async (req, res) => {
   try {
-    // Validate incoming data
-    validateProductAddData(req);
+    const { title, price, description, categoryId, imageURL } = req.body;
 
-    const { title, price, description, category, imageURL } = req.body;
+    const category = await Category.findById(categoryId);
+    if (!category) {
+      return res.status(400).json({ success: false, message: "Invalid category" });
+    }
 
-    // Create and save product
-    const product = new Product({ 
-      title, 
-      price, 
-      description, 
-      category, 
-      imageURL 
+    const product = new Product({
+      title,
+      price,
+      description,
+      category: categoryId, // store reference
+      imageURL,
     });
 
     await product.save();
@@ -28,17 +29,16 @@ productRouter.post("/product/add", userAuth, async (req, res) => {
       product,
     });
   } catch (error) {
-    res.status(400).json({
-      success: false,
-      message: error.message,
-    });
+    res.status(400).json({ success: false, message: error.message });
   }
 });
 
-// GET All Products
+
+// ✅ GET All Products (with category populated)
 productRouter.get("/products", userAuth, async (req, res) => {
   try {
-    const products = await Product.find();
+    const products = await Product.find().populate("category"); // populate category reference
+
     res.status(200).json({
       success: true,
       products,
@@ -51,10 +51,10 @@ productRouter.get("/products", userAuth, async (req, res) => {
   }
 });
 
-// GET Single Product by ID
+// ✅ GET Single Product by ID (with category populated)
 productRouter.get("/product/:id", userAuth, async (req, res) => {
   try {
-    const product = await Product.findById(req.params.id);
+    const product = await Product.findById(req.params.id).populate("category");
 
     if (!product) {
       return res.status(404).json({
@@ -74,6 +74,29 @@ productRouter.get("/product/:id", userAuth, async (req, res) => {
     });
   }
 });
+
+
+
+// GET /products?search=phone&category=electronics
+productRouter.get("/products", userAuth, async (req, res) => {
+  try {
+    const { search, category } = req.query;
+    let query = {};
+
+    if (search) {
+      query.title = { $regex: search, $options: "i" }; // case-insensitive search
+    }
+    if (category) {
+      query.category = category;
+    }
+
+    const products = await Product.find(query);
+    res.status(200).json({ success: true, products });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
 
 // UPDATE Product by ID
 productRouter.patch("/product/:id", userAuth, async (req, res) => {

@@ -2,6 +2,7 @@ const {validateSignUpData} = require("../utils/validation")
 const express = require("express");
 const authRouter = express.Router();
 const User = require("../models/user")
+const bcrypt = require("bcrypt");
 
 //Signup API
 authRouter.post("/signup", async(req, res) => {

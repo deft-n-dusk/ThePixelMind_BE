@@ -22,6 +22,9 @@ const userAuth = async(req, res, next) => {
         req.user = user;
         next();
     }catch(err){
+         if (err.name === "TokenExpiredError") {
+      return res.status(401).json({ success: false, message: "Session expired, please login again" });
+    }
         res.status(400).send("ERROR: " + err.message);
     }
 };
