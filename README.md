@@ -1,4 +1,4 @@
-# ⚡ The Pixel Mind Backend (API)
+# ⚡ The Pixel Mind Backend
 
 The Pixel Mind Backend is a Node.js + Express API that powers The Pixel Mind App – a full-featured e-commerce platform with user authentication, category and product management, and a shopping cart system.
 
@@ -83,4 +83,28 @@ ThePixelMind_BE/
 ├── .env                      # Environment variables
 ├── package.json
 └── package-lock.json
+
+
+## ⚙️ Installation & Setup
+
+### Clone the Backend
+```bash
+git clone https://github.com/deft-n-dusk/ThePixelMind_BE.git
+cd ThePixelMind_BE
+
+Install dependencies
+bash
+npm install
+
+Setup environment variables
+Create a .env file in the root directory with the following:
+PORT=2713
+MONGO_URI=your_mongodb_connection_string
+JWT_SECRET=your_jwt_secret_key
+
+Start backend server
+bash
+npm start
+
+
 
