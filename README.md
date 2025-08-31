@@ -90,9 +90,74 @@ ThePixelMind_BE/
 
 ---
 
-## ⚙️ Installation & Setup
+⚙️ Installation & Setup
 
 1. **Clone the Backend**
 ```bash
+git clone https://github.com/deft-n-dusk/ThePixelMind_BE.git
+cd ThePixelMind_BE
+Install backend dependencies
 
+bash
+Copy code
+npm install
+Setup environment variables
+
+Create a .env file in the root directory
+
+Add the following:
+
+ini
+Copy code
+PORT=2713
+MONGO_URI=your_mongodb_connection_string
+JWT_SECRET=your_jwt_secret_key
+Start backend server
+
+bash
+Copy code
+npm start
+# or for development with auto-reload
+npm run dev
+Access backend
+
+Default URL: http://localhost:2713
+
+🌐 Live Demo
+Frontend: The Pixel Mind Live
+
+📂 Repositories
+Frontend: GitHub - Frontend
+
+Backend: GitHub - Backend
+
+📝 API Endpoints
+Auth Routes
+Method	Endpoint	Description	Request Body
+POST	/signup	Register a new user	firstName, lastName, emailId, password
+POST	/login	Login user	emailId, password
+POST	/logout	Logout user	None
+GET	/check	Check authentication (protected)	None
+
+Category Routes (Protected)
+Method	Endpoint	Description	Request Body
+POST	/category/add	Add new category	name, description
+GET	/category/all	Get all categories	None
+GET	/category/:id	Get category by ID	None
+PATCH	/category/update/:id	Update category by ID	name and/or description
+DELETE	/category/delete/:id	Delete category by ID	None
+
+Product Routes (Protected)
+Method	Endpoint	Description	Request Body
+POST	/product/add	Add new product	title, price, description, categoryId, imageURL
+GET	/products	Get all products	None
+GET	/product/:id	Get product by ID	None
+PATCH	/product/:id	Update product by ID	title, price, description, category, imageURL
+DELETE	/product/:id	Delete product by ID	None
+
+Cart Routes (Protected)
+Method	Endpoint	Description	Request Body
+POST	/cart/add	Add item to cart	productId, quantity
+DELETE	/cart/remove/:productId	Remove item from cart	None
+GET	/cart	Get current user's cart	None
 
