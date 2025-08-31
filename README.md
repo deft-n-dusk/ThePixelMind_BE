@@ -108,44 +108,53 @@ npm start
 
 
 
-## 📝 API Endpoints
+# 📡 The Pixel Mind Backend - API Endpoints
 
-### 🔐 Auth Routes
-| Method | Endpoint    | Description                             | Request Body                              |
-|--------|------------|-----------------------------------------|-------------------------------------------|
-| POST   | `/signup`  | Register a new user                     | `firstName`, `lastName`, `emailId`, `password` |
-| POST   | `/login`   | Login user                              | `emailId`, `password`                     |
-| POST   | `/logout`  | Logout user                             | None                                      |
-| GET    | `/check`   | Check authentication (protected)        | None                                      |
+This document contains all available API endpoints for **The Pixel Mind Backend**, which powers the **The Pixel Mind App** – an e-commerce platform with authentication, product, category, and cart management.
 
 ---
 
-### 🗂️ Category Routes (Protected)
-| Method | Endpoint                      | Description                    | Request Body                      |
-|--------|------------------------------|--------------------------------|-----------------------------------|
-| POST   | `/category/add`              | Add new category               | `name`, `description`            |
-| GET    | `/category/all`              | Get all categories             | None                              |
-| GET    | `/category/:id`              | Get category by ID             | None                              |
-| PATCH  | `/category/update/:id`       | Update category by ID          | `name` and/or `description`      |
-| DELETE | `/category/delete/:id`       | Delete category by ID          | None                              |
+## 🔑 Authentication Routes
+
+| Method | Endpoint       | Description                              | Auth Required | Request Body |
+|--------|---------------|------------------------------------------|--------------|--------------|
+| `POST` | `/signup`     | Register a new user                      | ❌ No        | `firstName`, `lastName`, `emailId`, `password` |
+| `POST` | `/login`      | Login user and get token                 | ❌ No        | `emailId`, `password` |
+| `POST` | `/logout`     | Logout user (clear auth cookie)          | ✅ Yes       | None         |
+| `GET`  | `/check`      | Check if user is authenticated           | ✅ Yes       | None         |
 
 ---
 
-### 🛒 Product Routes (Protected)
-| Method | Endpoint            | Description               | Request Body                                             |
-|--------|--------------------|---------------------------|----------------------------------------------------------|
-| POST   | `/product/add`     | Add new product           | `title`, `price`, `description`, `categoryId`, `imageURL`|
-| GET    | `/products`        | Get all products          | None                                                     |
-| GET    | `/product/:id`     | Get product by ID         | None                                                     |
-| PATCH  | `/product/:id`     | Update product by ID      | `title`, `price`, `description`, `category`, `imageURL`  |
-| DELETE | `/product/:id`     | Delete product by ID      | None                                                     |
+## 🏷️ Category Routes
+
+| Method | Endpoint                      | Description                     | Auth Required | Request Body |
+|--------|------------------------------|--------------------------------|--------------|--------------|
+| `POST` | `/category/add`              | Add a new category             | ✅ Yes       | `name`, `description` |
+| `GET`  | `/category/all`              | Get all categories             | ✅ Yes       | None         |
+| `GET`  | `/category/:id`              | Get category by ID             | ✅ Yes       | None         |
+| `PATCH`| `/category/update/:id`       | Update category by ID          | ✅ Yes       | `name`, `description` |
+| `DELETE`| `/category/delete/:id`      | Delete category by ID          | ✅ Yes       | None         |
 
 ---
 
-### 🛍️ Cart Routes (Protected)
-| Method | Endpoint                | Description                  | Request Body                   |
-|--------|------------------------|------------------------------|--------------------------------|
-| POST   | `/cart/add`            | Add item to cart             | `productId`, `quantity`       |
-| DELETE | `/cart/remove/:id`     | Remove item from cart        | None                          |
-| GET    | `/cart`                | Get current user's cart      | None                          |
+## 🛒 Product Routes
 
+| Method | Endpoint               | Description                           | Auth Required | Request Body |
+|--------|----------------------|-------------------------------------|--------------|--------------|
+| `POST` | `/product/add`       | Add a new product                   | ✅ Yes       | `title`, `price`, `description`, `categoryId`, `imageURL` |
+| `GET`  | `/products`          | Get all products (with category)    | ✅ Yes       | None         |
+| `GET`  | `/product/:id`       | Get product by ID                   | ✅ Yes       | None         |
+| `PATCH`| `/product/:id`       | Update product by ID                | ✅ Yes       | `title`, `price`, `description`, `category`, `imageURL` |
+| `DELETE`| `/product/:id`      | Delete product by ID                | ✅ Yes       | None         |
+
+---
+
+## 🛍️ Cart Routes
+
+| Method | Endpoint                      | Description                              | Auth Required | Request Body |
+|--------|------------------------------|------------------------------------------|--------------|--------------|
+| `POST` | `/cart/add`                  | Add an item to cart                      | ✅ Yes       | `productId`, `quantity` |
+| `GET`  | `/cart`                      | Get logged-in user's cart                | ✅ Yes       | None         |
+| `DELETE`| `/cart/remove/:productId`   | Remove an item from cart by product ID   | ✅ Yes       | None         |
+
+---
