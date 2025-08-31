@@ -35,7 +35,7 @@ This backend handles authentication, CRUD operations for products and categories
 - React.js / Vite
 - Tailwind CSS
 - Redux 
-- Axios / Fetch API
+- Axios 
 
 **Backend:**
 - Node.js + Express.js – Server & Routing
@@ -94,4 +94,5 @@ ThePixelMind_BE/
 
 1. **Clone the Backend**
 ```bash
+
 
