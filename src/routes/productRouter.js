@@ -3,9 +3,13 @@ const productRouter = express.Router();
 const Product = require("../models/product");
 const { userAuth } = require("../middlewares/auth");
 const { validateProductAddData } = require("../utils/validation");
+const Category = require("../models/category");
 
 productRouter.post("/product/add", userAuth, async (req, res) => {
   try {
+
+    validateProductAddData(req);
+
     const { title, price, description, categoryId, imageURL } = req.body;
 
     const category = await Category.findById(categoryId);

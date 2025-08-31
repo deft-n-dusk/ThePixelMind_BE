@@ -3,46 +3,39 @@ const express = require("express");
 const app = express();
 const dbConnect = require("./config/database");
 const cookieParser = require("cookie-parser");
+const jwt = require("jsonwebtoken");
 const cors = require("cors");
 
+// Updated CORS
 const allowedOrigins = [
   "http://localhost:5173",
   "https://the-pixel-mind-fe.vercel.app"
 ];
 
 app.use(cors({
-  origin: function(origin, callback) {
-    if (!origin) return callback(null, true);
-    if (allowedOrigins.includes(origin)) {
-      return callback(null, true);
-    } else {
-      return callback(new Error("CORS not allowed"));
-    }
-  },
-  credentials: true,
+  origin: allowedOrigins,   
+  credentials: true         // allow cookies
 }));
 
-app.options("*", cors({
-  origin: allowedOrigins,
-  credentials: true
-}));
+const PORT = process.env.PORT || 2713;
 
 app.use(cookieParser());
 app.use(express.json());
 
 const authRouter = require("./routes/authRouter");
-const authCheckRouter = require("./routes/authCheckRouter");
-const cartRouter = require("./routes/cartRouter");
-const categoryRouter = require("./routes/categoryRouter");
-const productRouter = require("./routes/productRouter");
-
 app.use("/", authRouter);
-app.use("/", authCheckRouter);
-app.use("/", cartRouter);
-app.use("/", categoryRouter);
-app.use("/", productRouter);
 
-const PORT = process.env.PORT || 2713;
+const authCheckRouter = require("./routes/authCheckRouter");
+app.use("/", authCheckRouter);
+
+const cartRouter = require("./routes/cartRouter");
+app.use("/", cartRouter);
+
+const categoryRouter = require("./routes/categoryRouter");
+app.use("/", categoryRouter);
+
+const productRouter = require("./routes/productRouter");
+app.use("/", productRouter);
 
 dbConnect()
 .then(() => {
