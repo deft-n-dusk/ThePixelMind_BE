@@ -77,25 +77,7 @@ productRouter.get("/product/:id", userAuth, async (req, res) => {
 
 
 
-// GET /products?search=phone&category=electronics
-productRouter.get("/products", userAuth, async (req, res) => {
-  try {
-    const { search, category } = req.query;
-    let query = {};
 
-    if (search) {
-      query.title = { $regex: search, $options: "i" }; // case-insensitive search
-    }
-    if (category) {
-      query.category = category;
-    }
-
-    const products = await Product.find(query);
-    res.status(200).json({ success: true, products });
-  } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
-  }
-});
 
 
 // UPDATE Product by ID
