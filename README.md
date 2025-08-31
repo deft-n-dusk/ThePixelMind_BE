@@ -4,6 +4,15 @@ The Pixel Mind Backend is a Node.js + Express API that powers The Pixel Mind App
 
 This backend handles authentication, CRUD operations for products and categories, and cart management, and connects with MongoDB Atlas as the database.
 
+## 🌐 Live Demo
+
+**Frontend:** [The Pixel Mind Live](https://the-pixel-mind-fe.vercel.app/)
+
+## 📂 Repositories
+
+**Frontend:** [GitHub - Frontend](https://github.com/deft-n-dusk/ThePixelMind-Frontend)  
+**Backend:** [GitHub - Backend](https://github.com/deft-n-dusk/ThePixelMind-Backend)
+
 ## ✨ Features
 
 ### JWT-based Authentication (with Cookies)
@@ -74,3 +83,4 @@ ThePixelMind_BE/
 ├── .env                      # Environment variables
 ├── package.json
 └── package-lock.json
+
