@@ -34,7 +34,7 @@ This backend handles authentication, CRUD operations for products and categories
 **Frontend:**
 - React.js / Vite
 - Tailwind CSS
-- Redux (if used)
+- Redux 
 - Axios / Fetch API
 
 **Backend:**
@@ -94,3 +94,4 @@ ThePixelMind_BE/
 
 1. **Clone the Backend**
 ```bash
+
