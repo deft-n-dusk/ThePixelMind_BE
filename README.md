@@ -1,8 +1,8 @@
 # ⚡ The Pixel Mind Backend
 
-The Pixel Mind Backend is a Node.js + Express API that powers The Pixel Mind App – a full-featured e-commerce platform with user authentication, category and product management, and a shopping cart system.
+The Pixel Mind Backend is a server-side application built with Node.js and Express that powers The Pixel Mind App – a full-featured e-commerce platform offering secure user authentication, product and category management, and a shopping cart system.
 
-This backend handles authentication, CRUD operations for products and categories, and cart management, and connects with MongoDB Atlas as the database.
+It provides a robust API layer for handling authentication, CRUD operations for products and categories, and cart functionality, all while seamlessly integrating with MongoDB Atlas as the database.
 
 ## 🌐 Live Demo
 
@@ -158,3 +158,4 @@ This document contains all available API endpoints for **The Pixel Mind Backend*
 | `DELETE`| `/cart/remove/:productId`   | Remove an item from cart by product ID   | ✅ Yes       | None         |
 
 ---
+
