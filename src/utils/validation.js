@@ -19,7 +19,7 @@ const validateSignUpData = (req) => {
 }
 
 const validateProductAddData = (req) => {
-  const { title, price, description, category, imageURL } = req.body;
+  const { title, price, description, categoryId, imageURL } = req.body; // <- use categoryId
 
   if (!title || title.trim().length === 0) {
     throw new Error("Product title is required");
@@ -37,7 +37,7 @@ const validateProductAddData = (req) => {
     throw new Error("Description should be at least 10 characters long");
   }
 
-  if (!category || category.trim().length === 0) {
+  if (!categoryId || categoryId.trim().length === 0) {
     throw new Error("Product category is required");
   }
 
@@ -45,6 +45,7 @@ const validateProductAddData = (req) => {
     throw new Error("Image URL is not valid");
   }
 };
+
 
 module.exports = {
   validateSignUpData,
