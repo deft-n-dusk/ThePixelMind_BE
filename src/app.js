@@ -7,14 +7,29 @@ const jwt = require("jsonwebtoken");
 const cors = require("cors");
 
 // Updated CORS
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://the-pixel-mind-fe.vercel.app"
+];
+
 app.use(cors({
-  origin: [
-    "http://localhost:5173",                      
-    "https://the-pixel-mind-fe.vercel.app"       
-  ],
+  origin: function(origin, callback) {
+    // allow requests with no origin (like Postman)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    } else {
+      return callback(new Error("CORS not allowed"));
+    }
+  },
   credentials: true,
 }));
 
+// Handle preflight OPTIONS requests
+app.options("*", cors({
+  origin: allowedOrigins,
+  credentials: true
+}));
 const PORT = process.env.PORT || 2713;
 
 app.use(cookieParser());
