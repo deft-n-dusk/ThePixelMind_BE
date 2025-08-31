@@ -3,10 +3,8 @@ const express = require("express");
 const app = express();
 const dbConnect = require("./config/database");
 const cookieParser = require("cookie-parser");
-const jwt = require("jsonwebtoken");
 const cors = require("cors");
 
-// Updated CORS
 const allowedOrigins = [
   "http://localhost:5173",
   "https://the-pixel-mind-fe.vercel.app"
@@ -14,7 +12,6 @@ const allowedOrigins = [
 
 app.use(cors({
   origin: function(origin, callback) {
-    // allow requests with no origin (like Postman)
     if (!origin) return callback(null, true);
     if (allowedOrigins.includes(origin)) {
       return callback(null, true);
@@ -25,30 +22,27 @@ app.use(cors({
   credentials: true,
 }));
 
-// Handle preflight OPTIONS requests
 app.options("*", cors({
   origin: allowedOrigins,
   credentials: true
 }));
-const PORT = process.env.PORT || 2713;
 
 app.use(cookieParser());
 app.use(express.json());
 
 const authRouter = require("./routes/authRouter");
-app.use("/", authRouter);
-
 const authCheckRouter = require("./routes/authCheckRouter");
-app.use("/", authCheckRouter);
-
 const cartRouter = require("./routes/cartRouter");
-app.use("/", cartRouter);
-
 const categoryRouter = require("./routes/categoryRouter");
-app.use("/", categoryRouter);
-
 const productRouter = require("./routes/productRouter");
+
+app.use("/", authRouter);
+app.use("/", authCheckRouter);
+app.use("/", cartRouter);
+app.use("/", categoryRouter);
 app.use("/", productRouter);
+
+const PORT = process.env.PORT || 2713;
 
 dbConnect()
 .then(() => {
